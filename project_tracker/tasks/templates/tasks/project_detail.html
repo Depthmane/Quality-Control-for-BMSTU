@@ -1,0 +1,20 @@
+{% extends 'base/base.html' %}
+
+{% block content %}
+    <h1> {{ project.name }}</h1>
+    <p> {{ project.descriprion }}</p>
+
+    <!-- Ссылка для изменения задачи-->
+     <p><a href="{% url 'tasks:update_project' project.id %}">Изменить проект</a></p>
+
+     <p><a href="{% url 'tasks:add_task_to_project' project.id %}">Добавить новую задачу</a></p>
+
+    <h2>Задачи в проекте</h2>
+    <ul>
+        {% for task in project.tasks.all %}
+            <li><a href="{% url 'tasks:task_detail' project.id task.id %}">{{ task.name }}</a> {{ task.status }}</li>
+        {% empty %}
+            <li>В этом проекте нет задач</li>
+        {% endfor %}
+    </ul>
+{% endblock %}

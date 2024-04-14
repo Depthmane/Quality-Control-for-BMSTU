@@ -5,12 +5,12 @@ from tasks.models import Project, Task
 
 class BugReport(models.Model):
     title = models.CharField(max_length=100)
-    description = models.TextField
+    description = models.TextField()
     project = models.ForeignKey(Project, on_delete=models.CASCADE)
     task = models.ForeignKey(Task,
                              on_delete=models.SET_NULL,
                              null=True,
-                             blank=True, )
+                             blank=True,)
     STATUS_CHOICES = [
         ("New", "Новая"),
         ("In progress", "В работе"),
@@ -29,7 +29,6 @@ class BugReport(models.Model):
         (5, '5'),
     ]
     priority = models.IntegerField(
-        max_length=1,
         choices=PRIORITY_CHOICES,
         default=1,
     )
@@ -39,7 +38,7 @@ class BugReport(models.Model):
 
 class FeatureRequest(models.Model):
     title = models.CharField(max_length=100)
-    description = models.TextField
+    description = models.TextField()
     project = models.ForeignKey(Project, on_delete=models.CASCADE)
     task = models.ForeignKey(Task,
                              on_delete=models.SET_NULL,
@@ -63,7 +62,6 @@ class FeatureRequest(models.Model):
         (5, '5'),
     ]
     priority = models.IntegerField(
-        max_length=1,
         choices=PRIORITY_CHOICES,
         default=1,
     )

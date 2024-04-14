@@ -5,9 +5,9 @@ from .models import FeatureRequest, BugReport
 # класс администратора для BugReport
 @admin.register(BugReport)
 class BugReportAdmin(admin.ModelAdmin):
-    list_display = ('title', 'created_at', 'task',)
+    list_display = ('title', 'project', 'task', 'status', 'priority',  'created_at', 'updated_at',)
     list_filter = ('status', 'priority', 'project')
-    search_fields = ('name', 'description')
+    search_fields = ('title', 'description')
     ordering = ('created_at',)
     date_hierarchy = 'created_at'
 
@@ -16,7 +16,7 @@ class BugReportAdmin(admin.ModelAdmin):
 
 @admin.register(FeatureRequest)
 class FeatureRequestAdmin(admin.ModelAdmin):
-    list_display = ('title', 'project', 'status', 'created_at', 'updated_at')
+    list_display = ('title', 'project','task', 'status', 'priority', 'created_at', 'updated_at')
     list_filter = ('status', 'task', 'project',)
-    search_fields = ('name', 'description')
-    readonly_fields = ('created_at', 'updated_at')
+    search_fields = ('title', 'description',)
+    readonly_fields = ('created_at', 'updated_at',)

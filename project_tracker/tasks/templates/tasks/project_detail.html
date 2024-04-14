@@ -2,7 +2,7 @@
 
 {% block content %}
     <h1> {{ project.name }}</h1>
-    <p> {{ project.descriprion }}</p>
+    <p> {{ project.description }}</p>
 
     <!-- Ссылка для изменения задачи-->
      <p><a href="{% url 'tasks:update_project' project.id %}">Изменить проект</a></p>

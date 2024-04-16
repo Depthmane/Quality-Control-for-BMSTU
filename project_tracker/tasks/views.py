@@ -32,7 +32,7 @@ class ProjectCreateView(CreateView):
     model = Project
     form_class = ProjectForm
     template_name = 'tasks/project_create.html'
-    success_url = reverse_lazy('tasks/projects_list')
+    success_url = reverse_lazy('tasks:projects_list')
 
 
 class TaskCreateView(CreateView):
@@ -40,7 +40,7 @@ class TaskCreateView(CreateView):
     form_class = TaskForm
     template_name = 'tasks/add_task.html'
 
-    def from_valid(self, form):
+    def form_valid(self, form):
         form.instance.project = get_object_or_404(Project, pk=self.kwargs['project_id'])
         return super().form_valid(form)
 

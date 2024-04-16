@@ -1,7 +1,7 @@
-from django.shortcuts import render, get_object_or_404
+from django.shortcuts import render, get_object_or_404, redirect
 from django.urls import reverse, reverse_lazy
 from django.views import View
-from django.views.generic import ListView, DetailView, CreateView
+from django.views.generic import ListView, DetailView, CreateView, UpdateView, DeleteView
 
 from .forms import BugReportForm, FeatureRequestForm
 from .models import BugReport, FeatureRequest
@@ -63,6 +63,39 @@ class FeatureCreateView(CreateView):
 
     def get_success_url(self):
         return reverse('quality_control:feature_list')
+
+
+class BugUpdateView(UpdateView):
+    model = BugReport
+    form_class = BugReportForm
+    template_name = 'quality_control/bug_update.html'
+    pk_url_kwarg = 'bug_id'
+    success_url = reverse_lazy('quality_control:bug_list')
+
+
+class FeatureUpdateView(UpdateView):
+    model = FeatureRequest
+    form_class = FeatureRequestForm
+    template_name = 'quality_control/feature_update.html'
+    pk_url_kwarg = 'feature_id'
+    success_url = reverse_lazy('quality_control:feature_list')
+
+
+class BugDeleteView(DeleteView):
+    model = BugReport
+    template_name = 'quality_control/bug_confirm_delete.html'
+    pk_url_kwarg = 'bug_id'
+    success_url = reverse_lazy('quality_control:bug_list')
+    context_object_name = 'bug'
+
+
+class FeatureDeleteView(DeleteView):
+    model = FeatureRequest
+    pk_url_kwarg = 'feature_id'
+    success_url = reverse_lazy('quality_control:feature_list')
+    template_name = 'quality_control/feature_confirm_delete.html'
+    context_object_name = 'feature'
+
 
 # def index(request):
 #     bug_list_url = reverse('quality_control:bug_list')
@@ -164,7 +197,7 @@ class FeatureCreateView(CreateView):
 #         return HttpResponse(response_html)
 #
 #
-# class FeatureRequestDetaillView(DetailView):
+# class FeatureRequestDetailView(DetailView):
 #     model = FeatureRequest
 #     pk_url_kwarg = 'feature_id'
 #     def get(self, request, *args, **kwargs):
@@ -177,6 +210,59 @@ class FeatureCreateView(CreateView):
 #                         f'<p>Priority: {feature.priority}</p>'  \
 #                         f'<p>Description: {feature.description}</p>'
 #         return HttpResponse(response_html)
+
+# def create_bug(request):
+#     if request.method == 'POST':
+#         form = BugReportForm(request.POST)
+#         if form.is_valid():
+#             form.save()
+#             return redirect('quality_control:bug_list')
+#     else:
+#         form = BugReportForm()
+#     return render(request, 'quality_control/create_bug.html', {'form': form})
+
+# def create_request(request):
+#     if request.method == 'POST':
+#         form = FeatureRequestForm(request.POST)
+#         if form.is_valid():
+#             form.save()
+#             return redirect('quality_control:feature_list')
+#     else:
+#         form = FeatureRequestForm()
+#     return render(request, 'quality_control/create_request.html', {'form': form})
+
+# def update_bug(request, bug_id):
+#     bug = get_object_or_404(BugReport, pk=bug_id)
+#     if request.method == 'POST':
+#         form = BugReportForm(request.POST, instance=bug)
+#         if form.is_valid():
+#             form.save()
+#             return redirect('quality_control:bug_detail', bug_id=bug.id)
+#     else:
+#         form = BugReportForm(instance=bug)
+#     return render(request, 'quality_control/bug_update.html', {'form': form, 'bug': bug})
+#
+# def update_feature(request, feature_id):
+#     feature = get_object_or_404(FeatureRequest, pk=feature_id)
+#     if request.method == 'POST':
+#         form = FeatureRequestForm(request.POST, instance=feature)
+#         if form.is_valid():
+#             form.save()
+#             return redirect('quality_control:feature_id_detail', feature_id=feature.id)
+#     else:
+#         form = FeatureRequestForm(instance=feature)
+#     return render(request, 'quality_control/feature_update.html', {'form': form, 'feature': feature})
+#
+# def delete_bug(request, bug_id):
+#     bug = get_object_or_404(BugReport, pk=bug_id)
+#     bug.delete()
+#     return redirect('quality_control:bug_list')
+#
+# def delete_feature(request, feature_id):
+#     feature = get_object_or_404(FeatureRequest, pk=feature_id)
+#     feature.delete()
+#     return redirect('quality_control:feature_list')
+
 
 
 

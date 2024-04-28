@@ -44,7 +44,7 @@ class BugCreateView(CreateView):
     template_name = 'quality_control/bug_report_form.html'
     success_url = reverse_lazy('quality_control/bug_list')
 
-    def from_valid(self, form):
+    def form_valid(self, form):
         form.instance.project = get_object_or_404(FeatureRequest, pk=self.kwargs['bug_id'])
         return super().form_valid(form)
 
@@ -57,8 +57,8 @@ class FeatureCreateView(CreateView):
     form_class = FeatureRequestForm
     template_name = 'quality_control/feature_request_form.html'
 
-    def from_valid(self, form):
-        form.instance.project = get_object_or_404(FeatureRequest, pk=self.kwargs['feature_id'])
+    def form_valid(self, form):
+        form.instance.request = get_object_or_404(FeatureRequest, pk=self.kwargs['feature_id'])
         return super().form_valid(form)
 
     def get_success_url(self):
